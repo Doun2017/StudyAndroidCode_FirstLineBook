@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
             case 1:
-                if (grantResults.length>1 && grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length>0 && grantResults[0] != PackageManager.PERMISSION_GRANTED){
                     Toast.makeText(this, "拒绝权限将无法使用程序", Toast.LENGTH_SHORT).show();
                     finish();
                 }

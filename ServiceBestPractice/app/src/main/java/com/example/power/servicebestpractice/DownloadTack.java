@@ -72,7 +72,7 @@ public class DownloadTack extends AsyncTask<String, Integer, Integer> {
                 return TYPE_SUCCESS;
             }
             OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder().addHeader("RANGE", "byte="+downloadedLength+"-")
+            Request request = new Request.Builder().addHeader("RANGE", "bytes="+downloadedLength+"-")
                     .url(downloadUrl).build();
             Response response = client.newCall(request).execute();
             if(response != null){
