@@ -16,6 +16,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -42,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
             }
                 navigateTo(bdLocation);
             StringBuilder currentPosition = new StringBuilder();
-            currentPosition.append("纬度：").append(bdLocation.getLatitude()).append("\n");
+            currentPosition.append("纬度：").append(bdLocation.getLatitude()).append(" ");
             currentPosition.append("经度：").append(bdLocation.getLongitude()).append("\n");
-            currentPosition.append("国家：").append(bdLocation.getCountry()).append("\n");
-            currentPosition.append("省：").append(bdLocation.getProvince()).append("\n");
-            currentPosition.append("市：").append(bdLocation.getCity()).append("\n");
-            currentPosition.append("区：").append(bdLocation.getDistrict()).append("\n");
+            currentPosition.append("国家：").append(bdLocation.getCountry()).append(" ");
+            currentPosition.append("省：").append(bdLocation.getProvince()).append(" ");
+            currentPosition.append("市：").append(bdLocation.getCity()).append(" ");
+            currentPosition.append("区：").append(bdLocation.getDistrict()).append(" ");
             currentPosition.append("街道：").append(bdLocation.getStreet()).append("\n");
 
             currentPosition.append("定位方式：");
@@ -69,17 +70,26 @@ public class MainActivity extends AppCompatActivity {
         LocationClientOption option = new LocationClientOption();
         option.setScanSpan(5000);
         option.setIsNeedAddress(true);
-        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
+        option.setCoorType("bd09ll");
+//        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
         mLocationClient.setLocOption(option);
     }
     private void navigateTo(BDLocation location){
         if (isFirstLocate){
-            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
-            baiduMap.animateMapStatus(update);
-            update = MapStatusUpdateFactory.zoomTo(16f);
-            baiduMap.animateMapStatus(update);
+//            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+//            MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
+//            baiduMap.animateMapStatus(update);
+//            update = MapStatusUpdateFactory.zoomTo(16f);
+//            baiduMap.animateMapStatus(update);
+//            isFirstLocate = false;
+
+            Toast.makeText(this, "nav to " + location.getAddrStr(), Toast.LENGTH_SHORT).show();
             isFirstLocate = false;
+            LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(ll).zoom(18.0f);
+            baiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
         }
         MyLocationData.Builder locationBuilder = new MyLocationData.Builder();
         locationBuilder.latitude(location.getLatitude());
