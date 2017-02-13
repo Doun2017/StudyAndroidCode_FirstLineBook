@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -66,9 +67,35 @@ public class MainActivity extends AppCompatActivity {
         //practice11.5
 //        ListFeatures5 listFeatures5 = new ListFeatures5();
 //        msgtoshow = listFeatures5.stringout();
+
         //practice11.6
-        ListFeatures6 listFeatures6 = new ListFeatures6();
-        msgtoshow = listFeatures6.stringout();
+//        ListFeatures6 listFeatures6 = new ListFeatures6();
+//        msgtoshow = listFeatures6.stringout();
+
+        //practice11.7
+        ArrayList<Gerbil> gerbilArrayList = new ArrayList<Gerbil>();
+        for (int i=0; i<10; i++){
+            gerbilArrayList.add(new Gerbil(i));
+        }
+        List<Gerbil> sub = gerbilArrayList.subList(3, 5);
+        List<Gerbil> copy = new ArrayList<Gerbil>(gerbilArrayList);
+        try{
+            copy.removeAll(sub);//ConcurrentModificationException
+        }catch (UnsupportedOperationException e){
+            //- 如果列表不支持 removeAll 操作
+            e.printStackTrace();
+        }catch (ClassCastException e){
+            e.printStackTrace();
+//        ClassCastException - 如果此列表中的元素的类和指定的 collection 不兼容（可选）
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        for (Gerbil g: copy)
+        {
+            msgtoshow+=g.hop();
+            msgtoshow+="\n";
+        }
 
         //practice11.8
 //        ArrayList<Gerbil> gerbilArrayList = new ArrayList<Gerbil>();

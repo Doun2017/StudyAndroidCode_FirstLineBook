@@ -15,4 +15,15 @@ public class Gerbil {
         msg += " It's hopping!";
         return msg;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Gerbil g = (Gerbil)obj;
+        if (this.gerbilNumber != g.gerbilNumber)
+        {
+            return false;
+        }
+        return super.equals(obj);
+//        return true;
+    }
 }
