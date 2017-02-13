@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -55,14 +56,31 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
-        //practice11.4
-        msgtoshow+=(fill(new ArrayList<String>()))+"\n";
-        msgtoshow+=(fill(new LinkedList<String>()))+"\n";
-        msgtoshow+=(fill(new HashSet<String>()))+"\n";
-        msgtoshow+=(fill(new TreeSet<String>()))+"\n";
-        msgtoshow+=(fill(new LinkedHashSet<String>()))+"\n";
+//        //practice11.4
+//        msgtoshow+=(fill(new ArrayList<String>()))+"\n";
+//        msgtoshow+=(fill(new LinkedList<String>()))+"\n";
+//        msgtoshow+=(fill(new HashSet<String>()))+"\n";
+//        msgtoshow+=(fill(new TreeSet<String>()))+"\n";
+//        msgtoshow+=(fill(new LinkedHashSet<String>()))+"\n";
 
+        //practice11.5
+//        ListFeatures5 listFeatures5 = new ListFeatures5();
+//        msgtoshow = listFeatures5.stringout();
+        //practice11.6
+        ListFeatures6 listFeatures6 = new ListFeatures6();
+        msgtoshow = listFeatures6.stringout();
 
+        //practice11.8
+//        ArrayList<Gerbil> gerbilArrayList = new ArrayList<Gerbil>();
+//        for (int i=0; i<3; i++){
+//            gerbilArrayList.add(new Gerbil(i));
+//        }
+//        Iterator<Gerbil> it = gerbilArrayList.iterator();
+//        while (it.hasNext()){
+//            int i=0;
+//            msgtoshow += it.next().hop();
+//            msgtoshow += "\r\n";
+//        }
 
 
 
