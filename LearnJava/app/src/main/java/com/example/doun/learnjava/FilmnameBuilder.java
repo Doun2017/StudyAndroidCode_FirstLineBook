@@ -31,7 +31,7 @@ public class FilmnameBuilder {
     static private int index;
 
     static Collection fill(Collection<String> collection) {
-        for (int i=0; i<10; i++)
+        for (int i=0; i<5; i++)
             collection.add(FilmnameBuilder.next());
         return collection;
     }
