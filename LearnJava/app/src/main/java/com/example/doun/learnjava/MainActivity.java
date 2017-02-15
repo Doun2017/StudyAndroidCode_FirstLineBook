@@ -351,6 +351,39 @@ public class MainActivity extends AppCompatActivity {
 //        msgtoshow+=yuanyinMap;
 
         //practice11.21
+//        String strtest = "//: holding/UniqueWords.java\n" +
+//                "import java.util.*;\n" +
+//                "import net.mindview.util.*;\n" +
+//                "\n" +
+//                "public class UniqueWords {\n" +
+//                "  public static void main(String[] args) {\n" +
+//                "    Set<String> words = new TreeSet<String>(\n" +
+//                "      new TextFile(\"SetOperations.java\", \"\\\\W+\"));\n" +
+//                "    System.out.println(words);\n" +
+//                "  }\n" +
+//                "} /* Output:\n" +
+//                "[A, B, C, Collections, D, E, F, G, H, HashSet, I, J, K, L, M, N, Output, Print, Set, SetOperations, String, X, Y, Z, " +
+//                "add, addAll, added, args, class, contains, containsAll, false, from, holding, import, in, java, main, mindview, net, new, " +
+//                "print, public, remove, removeAll, removed, set1, set2, split, static, to, true, util, void]\n" +
+//                "*///:~\n";
+//        ArrayList<String> strlist = new ArrayList<String>(Arrays.asList(strtest.split("\\W+")));
+//        if(strlist.get(0).equals(""))
+//            strlist.remove(0);
+//        Collections.sort(strlist, String.CASE_INSENSITIVE_ORDER);
+//        Map<String, Integer> countMap = new LinkedHashMap<String, Integer>();
+//        for (String str:strlist){
+//            Integer inte = countMap.get(str);
+//            countMap.put(str, inte==null?1:inte+1);
+//        }
+//
+//        Set<String> words = new LinkedHashSet<String>(strlist);
+//        msgtoshow+=words;
+//        msgtoshow+="\n";
+//        msgtoshow+=strlist;
+//        msgtoshow+="\n";
+//        msgtoshow+=countMap;
+
+        //practice11.22
         String strtest = "//: holding/UniqueWords.java\n" +
                 "import java.util.*;\n" +
                 "import net.mindview.util.*;\n" +
@@ -370,10 +403,25 @@ public class MainActivity extends AppCompatActivity {
         if(strlist.get(0).equals(""))
             strlist.remove(0);
         Collections.sort(strlist, String.CASE_INSENSITIVE_ORDER);
-        Map<String, Integer> countMap = new LinkedHashMap<String, Integer>();
+
+        Set<WordCount> wordCounts = new HashSet<WordCount>();
         for (String str:strlist){
-            Integer inte = countMap.get(str);
-            countMap.put(str, inte==null?1:inte+1);
+            Iterator<WordCount> iterator = wordCounts.iterator();
+            boolean found = false;
+            while (iterator.hasNext()){
+                WordCount wordCount = iterator.next();
+                if (wordCount.word.equals(str)){
+                    wordCounts.remove(wordCount);
+                    wordCount.count+=1;
+                    wordCounts.add(wordCount);
+                    found = true;
+                    break;
+                }
+            }
+            if (found == false){
+                WordCount wordCount = new WordCount(str, 1);
+                wordCounts.add(wordCount);
+            }
         }
 
         Set<String> words = new LinkedHashSet<String>(strlist);
@@ -381,7 +429,20 @@ public class MainActivity extends AppCompatActivity {
         msgtoshow+="\n";
         msgtoshow+=strlist;
         msgtoshow+="\n";
-        msgtoshow+=countMap;
+        for (WordCount wordCount:wordCounts){
+            msgtoshow+=('['+wordCount.word+':'+wordCount.count+']');
+        }
+
+
+
+
+
+
+
+
+
+
+
         msgtextview.setText(msgtoshow);
     }
 
