@@ -559,16 +559,38 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         //practice11.30
-        CollectionSequence30 pets = new CollectionSequence30();
-        pets.add(new Gerbil(21));
-        pets.add(new Gerbil(91));
-        pets.add(new Gerbil(254));
-        pets.add(new Gerbil(3));
-        pets.add(new Gerbil(231));
-//        msgtoshow = display(pets);
-//        InterfaceVsIterator.display(c.iterator());
-        for(Gerbil p : pets){
-            msgtoshow+=(p.hop() + ":\n" + p + "\n ");
+//        CollectionSequence30 pets = new CollectionSequence30();
+//        pets.add(new Gerbil(21));
+//        pets.add(new Gerbil(91));
+//        pets.add(new Gerbil(254));
+//        pets.add(new Gerbil(3));
+//        pets.add(new Gerbil(231));
+//        for(Gerbil p : pets){
+//            msgtoshow+=(p.hop() + ":\n" + p + "\n ");
+//        }
+
+        //practice11.31
+//        RandomShapeGenerator31 generator31 = new RandomShapeGenerator31(50);
+//        for (Gerbil gerbil:generator31){
+//            msgtoshow += gerbil.hop();
+//            msgtoshow += "\n";
+//        }
+
+        //practice11.32
+        RandomShapeGenerator32 generator32 = new RandomShapeGenerator32(10);
+        for (Gerbil gerbil:generator32){
+            msgtoshow += gerbil.hop();
+            msgtoshow += "\n";
+        }
+        msgtoshow += "\n";
+        for (Gerbil gerbil:generator32.reversed()){
+            msgtoshow += gerbil.hop();
+            msgtoshow += "\n";
+        }
+        msgtoshow += "\n";
+        for (Gerbil gerbil:generator32.randomized()){
+            msgtoshow += gerbil.hop();
+            msgtoshow += "\n";
         }
 
 
