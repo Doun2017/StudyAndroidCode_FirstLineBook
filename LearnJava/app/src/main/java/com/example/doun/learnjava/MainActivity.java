@@ -18,6 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -384,63 +387,189 @@ public class MainActivity extends AppCompatActivity {
 //        msgtoshow+=countMap;
 
         //practice11.22
-        String strtest = "//: holding/UniqueWords.java\n" +
-                "import java.util.*;\n" +
-                "import net.mindview.util.*;\n" +
-                "\n" +
-                "public class UniqueWords {\n" +
-                "  public static void main(String[] args) {\n" +
-                "    Set<String> words = new TreeSet<String>(\n" +
-                "      new TextFile(\"SetOperations.java\", \"\\\\W+\"));\n" +
-                "    System.out.println(words);\n" +
-                "  }\n" +
-                "} /* Output:\n" +
-                "[A, B, C, Collections, D, E, F, G, H, HashSet, I, J, K, L, M, N, Output, Print, Set, SetOperations, String, X, Y, Z, " +
-                "add, addAll, added, args, class, contains, containsAll, false, from, holding, import, in, java, main, mindview, net, new, " +
-                "print, public, remove, removeAll, removed, set1, set2, split, static, to, true, util, void]\n" +
-                "*///:~\n";
-        ArrayList<String> strlist = new ArrayList<String>(Arrays.asList(strtest.split("\\W+")));
-        if(strlist.get(0).equals(""))
-            strlist.remove(0);
-        Collections.sort(strlist, String.CASE_INSENSITIVE_ORDER);
+//        String strtest = "//: holding/UniqueWords.java\n" +
+//                "import java.util.*;\n" +
+//                "import net.mindview.util.*;\n" +
+//                "\n" +
+//                "public class UniqueWords {\n" +
+//                "  public static void main(String[] args) {\n" +
+//                "    Set<String> words = new TreeSet<String>(\n" +
+//                "      new TextFile(\"SetOperations.java\", \"\\\\W+\"));\n" +
+//                "    System.out.println(words);\n" +
+//                "  }\n" +
+//                "} /* Output:\n" +
+//                "[A, B, C, Collections, D, E, F, G, H, HashSet, I, J, K, L, M, N, Output, Print, Set, SetOperations, String, X, Y, Z, " +
+//                "add, addAll, added, args, class, contains, containsAll, false, from, holding, import, in, java, main, mindview, net, new, " +
+//                "print, public, remove, removeAll, removed, set1, set2, split, static, to, true, util, void]\n" +
+//                "*///:~\n";
+//        ArrayList<String> strlist = new ArrayList<String>(Arrays.asList(strtest.split("\\W+")));
+//        if(strlist.get(0).equals(""))
+//            strlist.remove(0);
+//        Collections.sort(strlist, String.CASE_INSENSITIVE_ORDER);
+//
+//        Set<WordCount> wordCounts = new HashSet<WordCount>();
+//        for (String str:strlist){
+//            Iterator<WordCount> iterator = wordCounts.iterator();
+//            boolean found = false;
+//            while (iterator.hasNext()){
+//                WordCount wordCount = iterator.next();
+//                if (wordCount.word.equals(str)){
+//                    wordCounts.remove(wordCount);
+//                    wordCount.count+=1;
+//                    wordCounts.add(wordCount);
+//                    found = true;
+//                    break;
+//                }
+//            }
+//            if (found == false){
+//                WordCount wordCount = new WordCount(str, 1);
+//                wordCounts.add(wordCount);
+//            }
+//        }
+//
+//        Set<String> words = new LinkedHashSet<String>(strlist);
+//        msgtoshow+=words;
+//        msgtoshow+="\n";
+//        msgtoshow+=strlist;
+//        msgtoshow+="\n";
+//        for (WordCount wordCount:wordCounts){
+//            msgtoshow+=('['+wordCount.word+':'+wordCount.count+']');
+//        }
 
-        Set<WordCount> wordCounts = new HashSet<WordCount>();
-        for (String str:strlist){
-            Iterator<WordCount> iterator = wordCounts.iterator();
-            boolean found = false;
-            while (iterator.hasNext()){
-                WordCount wordCount = iterator.next();
-                if (wordCount.word.equals(str)){
-                    wordCounts.remove(wordCount);
-                    wordCount.count+=1;
-                    wordCounts.add(wordCount);
-                    found = true;
-                    break;
-                }
-            }
-            if (found == false){
-                WordCount wordCount = new WordCount(str, 1);
-                wordCounts.add(wordCount);
-            }
+
+        //practice11.23
+//        Map<Integer,Integer> m20 = new HashMap<Integer,Integer>();
+//        int lastbest=0;
+//        Random rand = new Random(1);
+//        for(int i = 0; i < 100; i++) {
+//            int bestInt = getBestInt(rand.nextInt());
+//            lastbest = bestInt;
+//            Integer freq = m20.get(bestInt);
+//            m20.put(bestInt, freq == null ? 1 : freq + 1);
+//        }
+//        msgtoshow+=m20;
+
+        //practice11.24
+//        Map<String, Integer> mymap = new LinkedHashMap<>();
+//        mymap.put("B", 2);
+//        mymap.put("C", 3);
+//        mymap.put("E", 5);
+//        mymap.put("A", 1);
+//        mymap.put("D", 4);
+//        msgtoshow+=mymap;
+//
+//        TreeSet<String> keyset = new TreeSet<>(mymap.keySet());
+//        while (keyset.isEmpty()==false){
+//            String maxstr = keyset.first();
+//            for (String str:keyset){
+//                if (str.compareTo(maxstr)>0){
+//                    maxstr = str;
+//                }
+//            }
+//            keyset.remove(maxstr);
+//            int val = mymap.get(maxstr);
+//            mymap.remove(maxstr);
+//            mymap.put(maxstr, val);
+//        }
+//        msgtoshow+="\n";
+//        msgtoshow+=mymap;
+
+        //practice11.25  practice11.26
+//        String strtest = "//: holding/UniqueWords.java\n" +
+//                "import java.util.*;\n" +
+//                "import net.mindview.util.*;\n" +
+//                "\n" +
+//                "public class UniqueWords {\n" +
+//                "  public static void main(String[] args) {\n" +
+//                "    Set<String> words = new TreeSet<String>(\n" +
+//                "      new TextFile(\"SetOperations.java\", \"\\\\W+\"));\n" +
+//                "    System.out.println(words);\n" +
+//                "  }\n" +
+//                "} /* Output:\n" +
+//                "[A, B, C, Collections, D, E, F, G, H, HashSet, I, J, K, L, M, N, Output, Print, Set, SetOperations, String, X, Y, Z, " +
+//                "add, addAll, added, args, class, contains, containsAll, false, from, holding, import, in, java, main, mindview, net, new, " +
+//                "print, public, remove, removeAll, removed, set1, set2, split, static, to, true, util, void]\n" +
+//                "*///:~\n";
+//        ArrayList<String> strlist = new ArrayList<String>(Arrays.asList(strtest.split("\\W+")));
+//        if(strlist.get(0).equals(""))
+//            strlist.remove(0);
+//
+//        Map<String, ArrayList<Integer>> strMap = new HashMap<>();
+//        int pos=0;
+//        for (String currentstr:strlist){
+//            pos++;
+//            ArrayList<Integer> posArray = strMap.get(currentstr);
+//            if (posArray == null){
+//                posArray = new ArrayList<Integer>();
+//                strMap.put(currentstr, posArray);
+//            }
+//            posArray.add(pos);
+//        }
+//
+//        msgtoshow+=strMap;      //practice11.25 end
+//        msgtoshow+="\n";
+//
+//            int count = 0;
+//        for (Map.Entry<String, ArrayList<Integer>> en : strMap.entrySet()) {
+//            count += en.getValue().size();
+//        }
+//        ArrayList<String> newstrlist = new ArrayList<>();
+//        for (int i=1; i<=count; i++){
+//            for (Map.Entry<String, ArrayList<Integer>> en : strMap.entrySet()) {
+//                if (en.getValue().contains(i)){
+//                    newstrlist.add(en.getKey());
+//                }
+//            }
+//        }
+//        msgtoshow+=newstrlist; //practice11.26 end
+
+//        practice11.27
+//        Queue<Gerbil> queue = new LinkedList<>();
+//        queue.offer(new Gerbil(12));
+//        queue.offer(new Gerbil(202));
+//        queue.offer(new Gerbil(76));
+//        queue.offer(new Gerbil(33));
+//        queue.offer(new Gerbil(342));
+//
+//        Gerbil g = queue.poll();
+//        while (g!=null){
+//            msgtoshow += g.hop();
+//            msgtoshow += "\n";
+//            g = queue.poll();
+//        }
+
+        //practice11.28
+//        Random rand = new Random(33);
+//        PriorityQueue<Double> priorityQueue = new PriorityQueue<>();
+//        for (int i=0; i<10; i++){
+//            priorityQueue.offer(rand.nextDouble());
+//        }
+//        Double d = priorityQueue.poll();
+//        while (d!=null){
+//            msgtoshow += d;
+//            msgtoshow += "\n";
+//            d = priorityQueue.poll();
+//        }
+
+        //practice11.29
+//        Random rand = new Random(33);
+//        PriorityQueue<Gerbil> priorityQueue = new PriorityQueue<>();
+//        for (int i=0; i<10; i++){
+//            priorityQueue.offer(new Gerbil(i));
+//        }
+
+        //practice11.30
+        CollectionSequence30 pets = new CollectionSequence30();
+        pets.add(new Gerbil(21));
+        pets.add(new Gerbil(91));
+        pets.add(new Gerbil(254));
+        pets.add(new Gerbil(3));
+        pets.add(new Gerbil(231));
+//        msgtoshow = display(pets);
+//        InterfaceVsIterator.display(c.iterator());
+        for(Gerbil p : pets){
+            msgtoshow+=(p.hop() + ":\n" + p + "\n ");
         }
-
-        Set<String> words = new LinkedHashSet<String>(strlist);
-        msgtoshow+=words;
-        msgtoshow+="\n";
-        msgtoshow+=strlist;
-        msgtoshow+="\n";
-        for (WordCount wordCount:wordCounts){
-            msgtoshow+=('['+wordCount.word+':'+wordCount.count+']');
-        }
-
-
-
-
-
-
-
-
-
 
 
         msgtextview.setText(msgtoshow);
@@ -449,8 +578,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
+    //practice11.23
+//    private int getBestInt(int rankey) {
+//        Random rand = new Random(rankey);
+//        Map<Integer, Integer> m = new HashMap<Integer, Integer>();
+//        for (int i = 0; i < 10000; i++) {
+//            // Produce a number between 0 and 20:
+//            int r = rand.nextInt(20);
+//            Integer freq = m.get(r);
+//            m.put(r, freq == null ? 1 : freq + 1);
+//        }
+//        int max = 0, maxkey = 0;
+//        for (Map.Entry<Integer, Integer> en : m.entrySet()) {
+//            if (en.getValue() > max){
+//                max = en.getValue();
+//                maxkey = en.getKey();
+//            }
+//        }
+//        return maxkey;
+//    }
 
 
 
