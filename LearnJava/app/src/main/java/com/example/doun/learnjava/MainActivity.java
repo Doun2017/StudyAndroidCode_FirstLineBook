@@ -1,10 +1,26 @@
 package com.example.doun.learnjava;
 
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,17 +38,22 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.Vector;
 
 import static com.example.doun.learnjava.FilmnameBuilder.fill;
 
+
 public class MainActivity extends AppCompatActivity {
     TextView msgtextview;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        msgtextview = (TextView)findViewById(R.id.msgTextView);
+        msgtextview = (TextView) findViewById(R.id.msgTextView);
 
         String msgtoshow = "";
 
@@ -141,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
 //        msgtoshow += printCollection(fill(new TreeSet<String>()));
 //        msgtoshow += "LinkedHashSet---\n";
 //        msgtoshow += printCollection(fill(new LinkedHashSet<String>()));
-
 
 
         //practice11.12
@@ -577,27 +597,167 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         //practice11.32
-        RandomShapeGenerator32 generator32 = new RandomShapeGenerator32(10);
-        for (Gerbil gerbil:generator32){
-            msgtoshow += gerbil.hop();
-            msgtoshow += "\n";
-        }
-        msgtoshow += "\n";
-        for (Gerbil gerbil:generator32.reversed()){
-            msgtoshow += gerbil.hop();
-            msgtoshow += "\n";
-        }
-        msgtoshow += "\n";
-        for (Gerbil gerbil:generator32.randomized()){
-            msgtoshow += gerbil.hop();
-            msgtoshow += "\n";
-        }
+//        RandomShapeGenerator32 generator32 = new RandomShapeGenerator32(10);
+//        for (Gerbil gerbil:generator32){
+//            msgtoshow += gerbil.hop();
+//            msgtoshow += "\n";
+//        }
+//        msgtoshow += "\n";
+//        for (Gerbil gerbil:generator32.reversed()){
+//            msgtoshow += gerbil.hop();
+//            msgtoshow += "\n";
+//        }
+//        msgtoshow += "\n";
+//        for (Gerbil gerbil:generator32.randomized()){
+//            msgtoshow += gerbil.hop();
+//            msgtoshow += "\n";
+//        }
+        GetData mygetData = new GetData();
+        mygetData.start();
+        byte datatosend[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'};
+        BroadCastUdp broadCastUdp = new BroadCastUdp(datatosend);
+        broadCastUdp.start();
+
 
 
         msgtextview.setText(msgtoshow);
+
     }
 
 
+    int serverPort = 2568;
+    boolean sendMessage = true;
+
+    boolean getMessage = true;
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
+    /**
+     * send udp
+     */
+    public class BroadCastUdp extends Thread {
+        public DatagramSocket udpSocket;
+
+        private static final String TAG = "BroadCastUdp";
+        private byte[] getData = null;
+
+        public BroadCastUdp(byte[] data) {
+            this.getData = data;
+        }
+
+        public void run() {
+            DatagramPacket dataPacket = null;
+            int count = 0;
+
+            try {
+                udpSocket = new DatagramSocket();
+                dataPacket = new DatagramPacket(getData, getData.length);
+                dataPacket.setData(getData);
+                dataPacket.setLength(getData.length);
+                dataPacket.setPort(serverPort);
+                dataPacket.setAddress(InetAddress.getByName("127.0.0.1"));//202.11.4.67测试IP
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+            while (sendMessage) {
+                try {
+                    //message回调
+                    Message message = new Message();
+                    message.what = 1;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("port", "" + udpSocket.getLocalPort());
+                    message.setData(bundle);
+                    myHandler.sendMessage(message);
+                    udpSocket.send(dataPacket);
+                    sleep(500);
+
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+            }
+            udpSocket.close();
+
+        }
+    }
+
+    private Handler myHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    getMessage = false;
+                    break;
+                case 1:
+                    Bundle bundle = msg.getData();
+//                    msgtextview.setText(bundle.getString("port"));
+                    Toast.makeText(getApplicationContext(), bundle.getString("port"), Toast.LENGTH_SHORT).show();
+                    sendMessage = false;
+                    break;
+                case 3:
+                    Bundle bundle3 = msg.getData();Integer.toHexString((byte)3);
+                    msgtextview.setText(Arrays.toString(bundle3.getByteArray("data")));
+                    getMessage = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+
+    /**
+     * get udp
+     */
+    class GetData extends Thread {
+        public DatagramSocket udpSocket;
+
+        DatagramPacket udpPacket = null;
+        byte[] data = new byte[128];
+
+        @Override
+        public void run() {
+            try {
+                udpSocket = new DatagramSocket(serverPort);//6464
+                udpPacket = new DatagramPacket(data, data.length);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
+            while (getMessage) {
+                try {
+                    udpSocket.receive(udpPacket);
+                } catch (Exception e) {
+
+                }
+                //接收到的byte[]
+                byte[] m = Arrays.copyOf(udpPacket.getData(), udpPacket.getLength());
+
+                Message message1 = new Message();
+                message1.what = 3;
+                Bundle bundle1 = new Bundle();
+                bundle1.putByteArray("data", m);
+                message1.setData(bundle1);
+                myHandler.sendMessage(message1);
+
+            }
+
+            udpSocket.close();
+
+        }
+
+    }
 
 
     //practice11.23
@@ -621,7 +781,6 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 
-
     //practice11.11
 //    private String printCollection(Collection co){
 //        Iterator it = co.iterator();
@@ -632,4 +791,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        return str;
 //    }
+
+
 }
